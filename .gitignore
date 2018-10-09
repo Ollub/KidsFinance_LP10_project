@@ -1,3 +1,4 @@
 env/
 .log
-test_emmet.py
+test_*
+ProjectPlan*
