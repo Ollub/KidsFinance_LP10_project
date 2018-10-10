@@ -24,8 +24,8 @@
       <div class="modal-content">
         <div class="modal-header bg-light">
           <h4>
-            <img src="HelloBear.jpg" width="50" alt="" >
-            Хоп Хэй Ла-ла-лэй!
+            <img src="../img/HelloBear.jpg" width="50" alt="" >
+            Войти в свой аккаунт
           </h4>
           <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
@@ -54,7 +54,10 @@
             <div class="row">
               <div class="col-sm-10 offset-sm-2">
                 <button type="submit" class="btn btn-primary">
-                  Проникнуть <i class="fas fa-sign-in-alt"></i>
+                  Войти <i class="fas fa-sign-in-alt"></i>
+                </button>
+                  <button class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#RegisterPopup">
+                  Зарегистрироваться <i class="fas fa-sign-in-alt"></i>
                 </button>
                 
               </div>
@@ -65,9 +68,65 @@
     </div>
   </div>
 
+  <div class="modal fade" id="RegisterPopup" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-light">
+          <h4>
+            <img src="../img/HelloBear.jpg" width="50" alt="" >
+            Зарегистрировать нового пользователя
+          </h4>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <!-- Register FORM -->
+          <form id="new-user-form">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label" for="login-input">Login</label>
+              <div class="col-sm-10">
+                <input type="text" id="login-input" class="form-control">
+                <p class="help-block font-weight-light">Введите Ваш email</p>
+              </div>
+
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label" for="password-input">Enter new password</label>
+              <div class="col-sm-10">
+                <input type="password" id="password-input-register" class="form-control">
+                <p class="help-block font-weight-light">Новый пароль</p>
+              </div>
+            </div>
+
+              <div class="form-group row">
+              <label class="col-sm-2 col-form-label" for="password-confirmation">Re-enter password</label>
+              <div class="col-sm-10">
+                <input type="password" id="password-confirmation" class="form-control">
+                <p class="help-block font-weight-light reentered">Введите новый пароль повторно</p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-10 offset-sm-2">
+                  <button id="register-new-user" class="btn btn-primary" data-toggle="modal">
+                  Зарегистрироваться <i class="fas fa-sign-in-alt"></i>
+                </button>
+
+              </div>
+            </div>
+          </form>
+        </div>
+       </div>
+    </div>
+  </div>
+
+
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 </html>

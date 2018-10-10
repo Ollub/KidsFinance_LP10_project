@@ -1,51 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>KF_start</title>
-    <!-- для того, чтобы отображалось на мобиле -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% extends "base.html" %}
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- Подключение Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/main.css">
-
-<body>
-
-<!-- HEADER -->  
-  <nav class="navbar  navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
-    <a class="navbar-brand" href="#">
-      <img src="../img/finn_jake.png" width="30" height="30" class="d-inline-block align-top" alt="">
-      KidsFinance
-      <!-- src="fin_jang_by_ropa_to-d6psey3.png" -->
-    </a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="nav navbar-nav ml-auto">
-        <li class="navbar-item active"><a href="#" class="nav-link">Главная</a></li>
-        <li class="navbar-item"><a href="#" class="nav-link">Как это работает</a></li>
-        <li class="navbar-item"><a href="#" class="nav-link">Обратная связь <i class="fa fa-envelope"></i></a></li>
-        <li class="navbar-item">
-          <button class="btn btn-primary" data-toggle="modal" data-target="#LoginField">
-            Вход
-          </button>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
+{% block body %}
+  {% include 'header.html' %}
 <!-- MODAL FOR LOGIN -->
   <div class="modal fade" id="LoginField" >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-light">
           <h4>
-            <img src="../img/HelloBear.jpg" width="50" alt="" >
+            <img src="{{ url_for('static', filename='img/HelloBear.jpg') }}" width="50" alt="" >
             Хоп Хэй Ла-ла-лэй!
           </h4>
           <button type="button" class="close" data-dismiss="modal">
@@ -96,7 +59,7 @@
         <div class="col-lg-6 col-lg-offset-2">
           <h1>Kids Finance</h1>
           <h2>Простое web-приложение для обучения детей финансовой грамотности</h2>
-          <h3>Родители ставтят задачи, дети выполняют и зарабатывают баллы, которые можно потратить в магазине. <span>Все счастливы!</span></h3>
+          <h3>Родители ставят задачи, дети выполняют и зарабатывают баллы, которые можно потратить в магазине. <span>Все счастливы!</span></h3>
         </div>
       </div>
     </div>
@@ -142,14 +105,9 @@
       <a href=""><i class="fab fa-vk"></i></a>
       <a href=""><i class="fab fa-odnoklassniki"></i></a>
       <a href=""><i class="fab fa-telegram"></i></a>
-      <a href=""><i class="fab fa-whatsapp"></i></a>   
+      <a href=""><i class="fab fa-whatsapp"></i></a>
 
     </div>
   </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
-</body>
-</html>
+{% endblock %}
