@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+           
+    <p>Add someone:</p>
+    
+    <table>
+        {% for user in all_users %}
+        <tr>
+            <td>
+                <a href="{{ url_for('user', username=user.username) }}">
+                    <img src="{{ user.avatar(36) }}"></td>
+                </a>
+            
+            <td>{{ user.username }} 
+            <td>
+                <a href="{{ url_for('add_member', username=user.username, groupname=group.groupname) }}">
+                   <p>Add user</p>
+                </a>                     
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>Or remove:</p>
+    
+    <table>
+        {% for user in members %}
+        {% if user != current_user %}
+        <tr>
+            <td>
+                <a href="{{ url_for('user', username=user.username) }}">
+                    <img src="{{ user.avatar(36) }}"></td>
+                </a>
+            
+            <td>{{ user.username }}
+            <td>
+                <a href="{{ url_for('remove_member', username=user.username, groupname=group.groupname) }}">
+                   <p>Remove user</p>
+                </a>                     
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

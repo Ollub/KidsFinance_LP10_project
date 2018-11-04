@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if all_groups != [] %}
+    <h1>List of groups:</h1>
+    
+    <table>
+        {% for group in all_groups %}
+        <tr>
+            <td>
+                <a href="{{ url_for('group', groupname=group.groupname) }}"><p>{{ group.groupname }}</p></a>  
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    {% else %}
+    <h2>There is no groups except yours</h2>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+           
+    <h1>Group {{ group.groupname }}</h1>
+    <p>
+        Admin:
+        <a href="{{ url_for('user', username=group.owner.username) }}">{{ group.owner.username }}</a>
+    </p>
+    <hr>
+    {% if group.description %}<p>{{ group.description }}</p>{% endif %}
+    
+    <table>
+        <tr>
+            <td><h2>Active tasks</h2></td>
+            <td><h2>Members</h2></td>
+        </tr>
+        <tr>
+            <td>
+                {% for task in tasks %}
+                    {{ task.author.username }} created task: {{ task.body }} <br>
+                    {# at {{ task.timestamp.strftime("%d/%m/%y at %H/%M") }} #}
+                    <br>
+                {% endfor %}
+            </td>
+            <td>
+                {% for member in members %}
+                    {{ member.username }} <br><br>
+                {% endfor %}   
+            </td>
+        </tr>
+        <style>
+            td {
+                background-color: gray;
+            }
+        </style>
+    </table>
+    {% if current_user == group.owner %}
+    <p><a href="{{ url_for('expand_group', groupname=group.groupname) }}">Add or delete users</a></p>
+    <p><a href="{{ url_for('edit_group', groupname=group.groupname) }}">Edit group</a></p>
+    {% endif %}
+    {% if current_user in group.members %}
+    <p><a href="{{ url_for('leave_group', groupname=group.groupname) }}">Leave the group</a></p>
+    {% else %}
+    <p><a href="{{ url_for('join_group', groupname=group.groupname) }}">Join the group</a></p>
+    {% endif %}
+ 
+    
+   
+    {# if current user #}
+    {# {% if group == current_group %} #}
+    {# here need to insert add_user block #}
+    {# <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p> #}
+    {# {% endif %} #}
+{% endblock %}

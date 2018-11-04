@@ -1,0 +1,4 @@
+env
+__py*
+/logs
+temp.py
