@@ -1,48 +1,55 @@
 {% extends "base.html" %}
 
-{% block content %}
-           
-    <p>Add someone:</p>
-    
-    <table>
-        {% for user in all_users %}
-        <tr>
-            <td>
-                <a href="{{ url_for('user', username=user.username) }}">
-                    <img src="{{ user.avatar(36) }}"></td>
-                </a>
-            
-            <td>{{ user.username }} 
-            <td>
-                <a href="{{ url_for('add_member', username=user.username, groupname=group.groupname) }}">
-                   <p>Add user</p>
-                </a>                     
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+{% block page_content %}
 
-    <p>Or remove:</p>
+<div class="row">
+    <div class="col-md-4">
+      <h4>Add users:</h4>
+        <table class="table border">
+            {% for user in all_users %}
+            <tr>
+                <td>
+                  <a href="{{ url_for('user', username=user.username) }}">
+                  <img src="{{ user.avatar(36) }}"></td>
+                  </a>
+                </td>
+                <td>
+                  {{ user.username }}
+                </td>
+                <td>
+                  <a href="{{ url_for('add_member', username=user.username, groupname=group.groupname) }}">
+                  <p>Add user</p>
+                  </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
     
-    <table>
-        {% for user in members %}
-        {% if user != current_user %}
-        <tr>
-            <td>
-                <a href="{{ url_for('user', username=user.username) }}">
-                    <img src="{{ user.avatar(36) }}"></td>
-                </a>
-            
-            <td>{{ user.username }}
-            <td>
-                <a href="{{ url_for('remove_member', username=user.username, groupname=group.groupname) }}">
-                   <p>Remove user</p>
-                </a>                     
-            </td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-    </table>
-
+    <div class="col-md-4">
+      <h4>Remove users:</h4>
+        <table class="table border">
+            {% for user in members %}
+            {% if user != current_user %}
+            <tr>
+                <td>
+                  <a href="{{ url_for('user', username=user.username) }}">
+                  <img src="{{ user.avatar(36) }}"></td>
+                  </a>
+                </td>
+                <td>
+                  {{ user.username }}
+                </td>
+                <td>
+                  <a href="{{ url_for('remove_member', username=user.username, groupname=group.groupname) }}">
+                  <p>Remove user</p>
+                  </a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>   
 
 {% endblock %}

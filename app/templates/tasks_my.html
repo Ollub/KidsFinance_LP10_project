@@ -1,0 +1,12 @@
+{% block content %}
+<table>
+    <tr valign="top">
+        <td>
+            <a href="{{ url_for('user', username=task.author.username) }}">
+                <img src="{{ task.author.avatar(36) }}">
+            </a>
+        </td>
+        <td>{{ task.author.username }} says:<br>{{ task.body }}</td>
+    </tr>
+</table>
+{% endblock %}

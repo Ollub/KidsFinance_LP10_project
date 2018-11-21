@@ -1,24 +1,71 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <table>
-        <tr valign="top">
-            <td><img src="{{ user.avatar(128) }}"></td>
+{% block page_content %}
+
+
+
+
+{# {% block app_content %} #}
+    <table class="table table-hover">
+        <tr>
+            <td width="256px"><img src="{{ user.avatar(200) }}"></td>
             <td>
-                <h1>User: {{ user.username }}</h1>
+                <h2>{{ user.username }}, <span style="font-size: 20px">{{ user.role.rolename }}</span></h2>
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-                {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}
-                <a href="{{ url_for('user_groups', username=user.username) }}">Groups</a>
+                {% if user.last_seen %}
+                <p>Last seen on: {{ user.last_seen.strftime('%Y-%m-%d at %H:%M') }}</p>
+                {% endif %}
+                {% if user == current_user %}
+                    {% if todo %}
+                    <h4 style="color: red"><b>
+                        You have
+                        <a href="{{ url_for('todo_page') }}">
+                          {{ todo}}
+                          TODO
+                          {% if todo == 1 %}
+                          task!                                  
+                          {% else %}
+                          tasks!
+                        </a>
+                        {% endif %}
+                    </b></h4>
+                    {% endif %}
+                {% endif %}
+
+
             </td>
+            <td>
+                <h4>Gold: {{ user.accounts.balance }}</h4>
+                
+                {% if user == current_user %}
+                <a href="{{ url_for('edit_profile') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Edit your profile</a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Archive tasks</a>
+                {% endif %}
+                <a href="{{ url_for('user_groups', username=user.username) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Groups</a>
+
+            </td>
+
         </tr>
+        <tr>
+
+        </tr>            
     </table>
-    <hr>
-    {% for task in tasks %}
+
+{# {% endblock %} #}
+
+
+
+
+
+
+
+
+   {#  {% for task in tasks %}
         {% include '_task.html' %}
-    {% endfor %}
+    {% endfor %} #}
+
 
     {% if user == current_user %}
-    <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
-    
+    {% include '_tasklist.html' %}    
     {% endif %}
 {% endblock %}

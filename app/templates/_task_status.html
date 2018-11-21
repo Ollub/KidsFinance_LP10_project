@@ -1,0 +1,37 @@
+<table>
+    <tr>
+    {% if task.tracking.approved %}
+    <td>
+        <p>
+            {{ task.tracking.approved.strftime('%Y-%m-%d at %H:%M') }}: Task 
+            <a href="{{ url_for('task_info', task_id=task.id) }}">{{ task.taskname }}</a>
+            approved by {{ task.author.username }}. Price <span style="color: gold">{{ task.gold }}</span>
+        </p>
+    </td>
+    {% elif task.tracking.done %}
+    <td>
+        <p>
+            {{ task.tracking.done.strftime('%Y-%m-%d at %H:%M') }}: Task 
+            <a href="{{ url_for('task_info', task_id=task.id) }}">{{ task.taskname }}</a>
+            was done by {{ task.author.username }}. Price <span style="color: gold">{{ task.gold }}</span>
+        </p>
+    </td>
+    {% elif task.tracking.accepted %}
+    <td>
+        <p>
+            {{ task.tracking.accepted.strftime('%Y-%m-%d at %H:%M') }}: Task 
+            <a href="{{ url_for('task_info', task_id=task.id) }}">{{ task.taskname }}</a>
+            was accepted by {{ task.author.username }}. Price <span style="color: gold">{{ task.gold }}</span>
+        </p>
+    </td>
+    {% else %}
+    <td>
+        <p>
+            {{ task.tracking.created.strftime('%Y-%m-%d at %H:%M') }}: Task 
+            <a href="{{ url_for('task_info', task_id=task.id) }}">{{ task.taskname }}</a>
+            was created by {{ task.author.username }}. Price <span style="color: gold">{{ task.gold }}</span>
+        </p>
+    </td>
+    {% endif %}  
+    </tr>
+</table>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Register</h1>
+        {{ wtf.quick_form(form) }}
+        
+        {% if form.errors %}
+        <h4>Something goes wrong!</h4>
+        {% endif %}
+        {% for subform in form %}
+        {% for error in subform.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+    <br>
+    
+  </div>
+{% endblock %}

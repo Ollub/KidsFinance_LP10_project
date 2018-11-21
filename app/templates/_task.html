@@ -1,10 +1,86 @@
-<table>
+{# <table>
     <tr valign="top">
         <td>
             <a href="{{ url_for('user', username=task.author.username) }}">
                 <img src="{{ task.author.avatar(36) }}">
             </a>
         </td>
-        <td>{{ task.author.username }} says:<br>{{ task.body }}</td>
+        <td>
+            {{ task.author.username }} creates:<br>
+            <a href="{{ url_for('task_info', task_id=task.id) }}">
+                {{ task.taskname }}
+            </a>
+        </td>
     </tr>
-</table>
+    <tr>
+        <td>{{ task.gold }}</td>
+        
+        {% if task.tracking.done and current_user == task.author %}
+        <td><a href="{{ url_for('approve_task', task_id=task.id) }}">Approve task</a></td>
+        {% elif task.tracking.accepted %}
+        <td><a href="{{ url_for('finish_task', task_id=task.id) }}">Finish task</a></td>
+        {% elif task.holders|length < task.team and not task.tracking.approved %}
+        <td><a href="{{ url_for('accept_task', task_id=task.id) }}">Accept task</a></td>
+        {% endif %}
+    </tr>
+</table> #}
+
+
+        
+        <a href="{{ url_for('task_info', task_id=task.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          
+                {{ task.taskname }}, 
+                {% if task.tracking.accepted and task.holders %}
+                
+                {{ task.holders[0].username }} doing
+                {% else %}
+                by {{ task.author.username }}
+                
+                {% endif %}
+          {#       {% if task.tracking.done and current_user == task.author %}
+                <span>
+                <a href="{{ url_for('approve_task', task_id=task.id) }}">Approve task</a>
+                {% elif task.tracking.accepted %}
+                <a href="{{ url_for('finish_task', task_id=task.id) }}">Finish task</a>
+                {% elif task.holders|length < task.team and not task.tracking.approved %}
+                <a href="{{ url_for('accept_task', task_id=task.id) }}">Accept task</a>
+                {% endif %}
+              </span> #}
+   
+
+         
+          <span class="badge badge-warning badge-pill">{{ task.gold }} 
+            <i class="far fa-gem"></i>
+          </span>
+        </a>
+
+
+
+{# <table class="table table-hover" >
+    <tr>
+        <td width="70px">
+            <a href="{{ url_for('user', username=task.author.username) }}">
+                <img src="{{ task.author.avatar(36) }}">
+            </a>
+        </td>
+        <td>            
+          <a href="{{ url_for('user', username=task.author.username) }}">
+            {{ task.author.username }}
+          </a>
+          creates task:
+          
+          {{ task.taskname }}
+          
+          costs: {{ task.gold }} 
+          <br> #}
+{#           {% if task.tracking.done and current_user == task.author %}
+          <a href="{{ url_for('approve_task', task_id=task.id) }}">Approve task</a>
+          {% elif task.tracking.accepted %}
+          <a href="{{ url_for('finish_task', task_id=task.id) }}">Finish task</a>
+          {% elif task.holders|length < task.team and not task.tracking.approved %}
+          <a href="{{ url_for('accept_task', task_id=task.id) }}">Accept task</a>
+          {% endif %}   #}          
+{#         </td>
+    </tr>
+</table> #}
+

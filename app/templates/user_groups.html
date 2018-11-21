@@ -1,15 +1,60 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <h1>{{ user.username }}'s groups:</h1>
+{% block page_content %}
+{#     <h1>{{ user.username }}'s groups:</h1>
     {% for group in groups %}
-    {# <p>{{ group.groupname }}</p> #}
+
     <a href="{{ url_for('group', groupname=group.groupname) }}"><p>{{ group.groupname }}</p></a>
     {% endfor %}
     {% if user == current_user %}
     <a href="{{ url_for('group_search') }}"><p>Search for groups</p></a>
     <p>or</p>
     <a href="{{ url_for('new_group') }}"><p>Create new group</p></a>
-    {% endif %}
+    {% endif %} #}
+
+
+
+
+<div class="col-md-6">
+    <div class="card ">
+      <div class="card-header">
+        <h5 nowrap >{{ user.username }}'s groups:</h5>      
+      </div>
+      
+      <div class="card-body">
+      {% if user.groups %}
+      {% for group in user.groups %}  
+        <div class="list-group">
+          {% if group.owner == current_user %}
+          <a href="{{ url_for('group', groupname=group.groupname) }}" class="list-group-item list-group-item-action bg-light">
+            {{ group.groupname }}
+          </a> 
+          {% else %}
+          <a href="{{ url_for('group', groupname=group.groupname) }}" class="list-group-item list-group-item-action">
+            {{ group.groupname }}
+          </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+      {% else %}
+      <h6 class="card-title">
+        You not participate in any group
+      </h6>
+      {% endif %}
+      <br>    
+        
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+          {% if current_user == user %}
+            <a href="{{ url_for('group_search') }}" class="btn btn-success">
+              Search
+            </a>   
+            <a href="{{ url_for('new_group') }}" class="btn btn-info">
+              New group
+            </a>
+          {% endif %}          
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

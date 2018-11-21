@@ -17,6 +17,12 @@ tasks_to_groups = db.Table('tasks_to_groups',
     db.PrimaryKeyConstraint('task_id', 'group_id')
 )
 
+taskholders = db.Table('tasks_to_users',
+    db.Column('user_id', db.ForeignKey('user.id')),
+    db.Column('task_id', db.ForeignKey('task.id')),
+    db.PrimaryKeyConstraint('user_id', 'task_id')
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -31,6 +37,11 @@ class User(UserMixin, db.Model):
         'Group', secondary=users_to_groups,
         backref='members')
     my_groups = db.relationship('Group', backref='owner')
+    accounts = db.relationship('Account',  uselist=False, backref='username')
+    assigned_tasks = db.relationship(
+        'Task', secondary=taskholders,
+        backref='holders')
+
     
 
     def __repr__(self):
@@ -63,22 +74,39 @@ class User(UserMixin, db.Model):
         if groupname is not None:
             group = Group.query.filter_by(groupname=groupname).first()
             task.groups.append(group)
+
+    def create_account(self, balance=None):
+        account = Account(user_id=self.id, balance=balance)
+        db.session.add(account)
                   
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    taskname = db.Column(db.String(35))
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     gold = db.Column(db.Integer)
+    team = db.Column(db.Integer, default=1)
     groups = db.relationship(
         'Group', secondary=tasks_to_groups,
         backref='tasks')
+    tracking = db.relationship('TaskTrack', uselist=False, backref='task')
 
 
     def __repr__(self):
-        return '<Task {}>'.format(self.body)
+        return '<Task {}>'.format(self.taskname)
 
+class TaskTrack(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
+    created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    accepted = db.Column(db.DateTime)
+    done = db.Column(db.DateTime)
+    approved = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return '<Track for task id {}>'.format(self.task_id)
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -101,6 +129,14 @@ class Group(db.Model):
 
     def __repr__(self):
         return '<Group {}>'.format(self.groupname)
+
+class Account(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    balance = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Account balance {}>'.format(self.balance)
 
 
 @login.user_loader

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ current_user.username }}, you have something to do</h1>
+  <h4>Please approve next tasks:</h4>
+  {% for task in tasks %}
+    {% include '_task.html' %}
+  {% endfor %}
+  
+{% endblock %}

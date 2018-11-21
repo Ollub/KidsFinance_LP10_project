@@ -1,15 +1,26 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField, SelectMultipleField, TextAreaField, widgets
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 
-from app.models import User, Role, Group
+from app.models import User, Role, Group, Task
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is None:
+            raise ValidationError('User does not exist')
+
+    # def validate_password(self, password):
+    #     user = User.query.filter_by(username=self.username.data).first()
+    #     if not user.check_password(password.data) and user:
+    #         raise ValidationError('Password incorrect')
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -38,7 +49,7 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140, message="Don't joke with me")])
-    age = StringField('Age', validators=[Length(min=0, max=3)])
+    # age = StringField('Age', validators=[Length(min=0, max=3)])
     submit = SubmitField('Submit')
 
     def __init__(self, original_username, *args, **kwargs):
@@ -72,9 +83,6 @@ class EditGroupForm(FlaskForm):
         super(EditGroupForm, self).__init__(*args, **kwargs)
         self.original_groupname = original_groupname
 
-    def validate_description(self, description):
-        if description.data == 'as':
-            raise ValidationError('sdfsdf')
 
     def validate_groupname(self, groupname):
         if groupname.data != self.original_groupname:
@@ -83,23 +91,36 @@ class EditGroupForm(FlaskForm):
                 raise ValidationError('Please use a different groupname.')
 
 
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
+
+
 class TaskForm(FlaskForm):
-    
-    # def __init__(self, user, *args, **kwargs):
-    #     self.current_user = user
-    #     super(TaskForm, self).__init__(*args, **kwargs)
+    task = StringField('Task name', validators=[DataRequired(), Length(min=0, max=35)])
+    body = TextAreaField('Task description', validators=[Length(min=0, max=140)])
+    price = StringField('Task price', validators=[DataRequired(), Length(min=0, max=5)])
+    groups = MultiCheckboxField('Choose group', choices=[], validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
-    print('********************')
-    print(current_user)
-    print('********************')
-    groups = SelectField('Choose group', choices=[],
-                            validators=[DataRequired()])
 
-    # groups = SelectField('Choose group', choices=[
-    #                         (group.groupname, group.groupname) for group in current_user.groups
-    #                         ],
-    #                         validators=[DataRequired()])
-    task = TextAreaField('Task description', validators=[Length(min=0, max=140)])
-    price = StringField('Task price', validators=[DataRequired(), Length(min=0, max=20)])
-    
-    submit = SubmitField('Register', validators=[DataRequired()])
+    def validate_price(self, price):
+        try:
+            price = int(price.data)
+        except:
+            raise ValidationError('Please type integer number')
+
+
+class EditTaskForm(FlaskForm):
+    taskname = StringField('Task name', validators=[DataRequired(), Length(min=0, max=35)])
+    body = TextAreaField('Task description', validators=[Length(min=0, max=140)])
+    price = StringField('Task price', validators=[DataRequired(), Length(min=0, max=5)])
+    groups = MultiCheckboxField('Choose group', choices=[], validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+    def validate_price(self, price):
+        try:
+            price = int(price.data)
+        except:
+            raise ValidationError('Please type integer number')
+

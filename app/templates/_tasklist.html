@@ -1,0 +1,118 @@
+
+
+{# <div class="row">
+  <div class="card col-md-4">
+    <div class="card-body">
+      <h5 class="card-title">Task list</h5>
+        <p class="card-text">All active and not assigned tasks</p>
+
+    </div>
+    <!-- List group -->
+    <div class="list-group">
+      {% for task in new_tasks %}
+        {% include '_task.html' %}
+      {% endfor %}        
+    </div>
+    <div class="card-body">
+      <a href="{{ url_for('new_task') }}" class="btn btn-primary">New task <i class="fa fa-plus"></i></a>
+
+    </div>
+  </div>
+
+  <div class="card col-md-4">
+    <div class="card-body">
+      <h5 class="card-title">In progress</h5>
+        <p class="card-text">All assigned tasks</p>
+    </div>
+    <!-- List group -->
+    <div class="list-group">
+      {% for task in assigned_tasks %}
+        {% include '_task.html' %}
+      {% endfor %}        
+    </div>
+
+  </div>
+</div> #}
+
+<div class="container">
+  <div class="row justify-content-around">
+    <div class="col-md-6 border">
+      <div class="card-body">
+      <h5 class="card-title">Task list</h5>
+        <p class="card-text">All active and not assigned tasks</p>
+
+    </div>
+      <div class="list-group">
+        {% for task in new_tasks %}
+          {% include '_task.html' %}
+        {% endfor %}
+        {% if current_user.role.rolename == 'parent' %}     
+        <a href="{{ url_for('new_task') }}" class="btn btn-primary">New task <i class="fa fa-plus"></i></a>
+        {% endif %}
+    </div>
+    </div>
+    <div class="col-md-6 border">
+      <div class="card-body">
+      <h5 class="card-title">In progress</h5>
+        <p class="card-text">All assigned tasks</p>
+    </div>
+
+      {% for task in assigned_tasks %}
+        {% include '_task.html' %}
+      {% endfor %}     
+   
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+{#   <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">In progress</h5>
+        <p class="card-text">Tasks in progress</p>
+    </div>
+      <!-- List group -->
+      <div class="list-group">
+        {% for user in users %}
+          {% for task in user.tasks %}
+
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              {{ task.name }}
+              <span class="badge badge-warning badge-pill">500
+                <i class="far fa-gem"></i>
+              </span>
+            {% endfor %}
+            <a href="#">{{ user.name }}</a>
+          </a>
+
+        {% endfor %}
+
+        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          Wash the dog
+          <span class="badge badge-warning badge-pill">400
+            <i class="far fa-gem"></i>
+          </span>
+          <a href="#">Петя</a>
+        </a>        
+      </div>
+
+    <div class="card-body">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Выбрать ребенка
+        </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Маша</a>
+        <a class="dropdown-item" href="#">Антон</a>
+        <a class="dropdown-item" href="#">Петя</a>
+  </div>
+</div>
+    </div>
+  </div>
+</div> #}

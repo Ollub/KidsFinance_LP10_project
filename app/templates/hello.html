@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+
+  <div id="mainblock">
+    <div class="conteiner">
+      <div class="row centered">
+        <div class="col-lg-6 col-lg-offset-2">
+          <h1>Kids Finance</h1>
+          <h2>Простое web-приложение для обучения детей финансовой грамотности</h2>
+          <h3>Родители ставят задачи, дети выполняют и зарабатывают баллы, которые можно потратить в магазине. <span>Все счастливы!</span></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'benefits.html' %}
+ 
+  {% include 'footer.html' %}
+
+{% endblock %}

@@ -1,32 +1,52 @@
-<html>
-    <head>
-      {% if title %}
-      <title>{{ title }} - KF</title>
+{# <head>
+  <link href="../static/css/main.css" rel="stylesheet">
+</head> #}
+
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block title %}Welcome to KidsFinance{% endblock %}
+
+{% block navbar %}
+  <nav class="navbar  navbar navbar-dark bg-dark navbar-expand-lg">
+  <a class="navbar-brand" href="{{ url_for('index') }}">
+    <img src="/static/img/finn_jake.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    KidsFinance
+    <!-- src="fin_jang_by_ropa_to-d6psey3.png" -->
+  </a>
+  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="nav navbar-nav ml-auto">
+      <li class="navbar-item active"><a href="{{ url_for('index') }}" class="nav-link">Home</a></li>
+
+      {% if current_user.is_anonymous %}
+      <li class="navbar-item"><a href="{{ url_for('login') }}" class="nav-link">Login</a></li>
       {% else %}
-      <title>Welcome to KidsFinance</title>
+      <li class="navbar-item"><a href="{{ url_for('user', username=current_user.username) }}" class="nav-link">Profile</a></li>
+      <li class="navbar-item"><a href="https://www.dbdesigner.net/designer/schema/203812" class="nav-link">About</a></li>
+      <li class="navbar-item"><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
+ 
+
       {% endif %}
-    </head>
-    <body>
-        <div>
-            KidsFinance:
-            <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-            <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
-        </div>
-        <hr>
+    </ul>
+  </div>
+  </nav>
+  
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+      <div class="bg-info">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul>
             {% for message in messages %}
-            <li>{{ message }}</li>
+            <div class="alert alert-info" role="alert">{{ message }}</div>
             {% endfor %}
-        </ul>
         {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
-</html>
+        {% endwith %}        
+      </div>
+      {% block page_content %}{% endblock %}
+    </div>
+{% endblock %}

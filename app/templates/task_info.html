@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="container">
+  <h1>Task info</h1>
+</div>
+  
+
+
+
+
+<div class="row justify-content-around">
+  <div class="col-md-7">    
+    <div class="card ">
+      <div class="card-header">
+        <h5 nowrap >{{ task.taskname }}
+          <span class="badge badge-warning badge-pill">{{ task.gold }} 
+            <i class="far fa-gem"></i>
+          </span>
+        </h5>      
+      </div>
+      <div class="card-body">
+        <h6 class="card-title">
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group mr-2" role="group" aria-label="First group">
+            {% for group in task.groups %}
+            <a href="{{ url_for('group', groupname=group.groupname) }}" class="btn btn-secondary">
+              {{ group.groupname }}
+            </a>
+            {% endfor %}      
+          </div>
+        </h6>
+        <p class="card-text">
+          {% if task.body %}
+          {{ task.body }}
+          {% else %}
+          There is no description for this task
+          {% endif %}
+        </p>
+        
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+          {% if current_user in task.holders and not task.tracking.done %}
+            <a href="{{ url_for('leave_task', task_id=task.id) }}" class="btn btn-success">
+              Leave task
+            </a>   
+            <a href="{{ url_for('finish_task', task_id=task.id) }}" class="btn btn-info">
+              Finish task
+            </a>
+          {% elif task.holders|length < task.team and not task.tracking.approved %}
+            <a href="{{ url_for('accept_task', task_id=task.id) }}" class="btn btn-success">
+              Accept task
+            </a>
+          {% endif %}
+          {% if current_user == task.author %}
+          {% if task.tracking.done %}
+            <a href="{{ url_for('approve_task', task_id=task.id) }}" class="btn btn-info">
+              Approve task
+            </a>
+          {% endif %}
+            <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-warning">
+              Edit task
+            </a>
+            <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-danger">
+              Delete task
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="col-md-5">
+
+
+
+<table class="table border rounded">
+    <tr>
+      <th scope="row">Created</th>
+      <td>{{ task.tracking.created.strftime('%Y-%m-%d at %H:%M') }}</td>
+      <td>
+        <a href="{{ url_for('user', username=task.author.username) }}">
+          <img src="{{ task.author.avatar(36) }}">
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Assigned</th>
+      {% if task.tracking.accepted %}
+      <td>{{ task.tracking.accepted.strftime('%Y-%m-%d at %H:%M') }}</td>
+      <td>
+        <a href="{{ url_for('user', username=task.holders[0].username) }}">
+          <img src="{{ task.holders[0].avatar(36) }}">
+        </a>
+      </td>
+      {% else %}
+        <td>task not accepted yet</td>
+        <td></td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Finished</th>
+      {% if task.tracking.done %}
+      <td>{{ task.tracking.done.strftime('%Y-%m-%d at %H:%M') }}</td>
+      <td>
+        <a href="{{ url_for('user', username=task.holders[0].username) }}">
+          <img src="{{ task.holders[0].avatar(36) }}">
+        </a>
+      </td>
+      {% else %}
+        <td>task not finished yet</td>
+        <td></td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Approved</th>
+      {% if task.tracking.approved %}
+      <td>{{ task.tracking.approved.strftime('%Y-%m-%d at %H:%M') }}</td>
+      <td>
+        <a href="{{ url_for('user', username=task.holders[0].username) }}">
+          <img src="{{ task.author.avatar(36) }}">
+        </a>
+      </td>
+      {% else %}
+        <td>task not approved yet</td>
+        <td></td>
+      {% endif %}
+    </tr>
+
+</div>
+
+</div>
+
+
+</table>
+</div>
+
+{# <div class="btn-group mr-2" role="group" aria-label="First group">        
+  {% if task.tracking.accepted and current_user in task.holders %}
+    <a href="{{ url_for('finish_task', task_id=task.id) }}" class="btn btn-info">
+      Finish task
+    </a>
+  {% elif task.holders|length < task.team and not task.tracking.approved %}
+    <a href="{{ url_for('accept_task', task_id=task.id) }}" class="btn btn-success">
+      Accept task
+    </a>
+  {% endif %}
+  {% if current_user == task.author %}
+  {% if task.tracking.done %}
+    <a href="{{ url_for('approve_task', task_id=task.id) }}" class="btn btn-info">
+      Approve task
+    </a>
+  {% endif %}
+    <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-warning">
+      Edit task
+    </a>
+    <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-danger">
+      Delete task
+    </a>
+  {% endif %}
+</div> #}
+                
+
+{% endblock %}

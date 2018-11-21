@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <h1>Sign In</h1>
+        {{ wtf.quick_form(form, enctype=FileField, ) }}
+        
+        {% if form.errors %}
+        <h4>Something goes wrong!</h4>
+        {% endif %}
+        {% for subform in form %}
+        {% for error in subform.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {% endfor %}
+        <br>
+        <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+

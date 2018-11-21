@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+  <div class="container">
+    <h1>{{ current_user.username }}, let's create a new task!</h1>
+    <div class="row">
+      
+      <div class="col-md-4">
+        
+        {{ wtf.quick_form(form) }}
+        
+        {% if form.errors %}
+        <h4>Something goes wrong!</h4>
+        {% endif %}
+        {% for subform in form %}
+        {% for error in subform.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {% endfor %}
+        <br>
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}

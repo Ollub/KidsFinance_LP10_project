@@ -2,3 +2,5 @@ env
 __py*
 /logs
 temp.py
+__pycache*
+/migrations/

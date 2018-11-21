@@ -1,28 +1,29 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block page_content %}
     <h1>Edit Group</h1>
     {% if current_user == group.owner %}
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.groupname.label }}<br>
-            {{ form.groupname(size=35) }}<br>
-            {% for error in form.groupname.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+       
+            {{ wtf.quick_form(form) }}
+
+            {% if form.errors %}
+            <h4>Something goes wrong!</h4>
+            {% endif %}
+            {% for subform in form %}
+            {% for error in subform.errors %}
+                <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
-            {{ form.description.label }}<br>
-            {{ form.description(cols=35, rows=4) }}<br>
-            {% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+          </div>
+        </div>
+    </div>
+    <br>
     <p><a href="{{ url_for('delete_group', groupname=group.groupname) }}">Delete group</a></p>
     {% else %}
     <p>You can't edit alien group</p>
     {% endif %}
 {% endblock %}
+
